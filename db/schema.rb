@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_25_110842) do
+ActiveRecord::Schema.define(version: 2019_12_25_111211) do
+
+  create_table "browsers", force: :cascade do |t|
+    t.string "name"
+    t.string "nickname"
+    t.string "note"
+    t.integer "machine_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["machine_id"], name: "index_browsers_on_machine_id"
+  end
 
   create_table "machines", force: :cascade do |t|
     t.string "name"
@@ -19,4 +29,5 @@ ActiveRecord::Schema.define(version: 2019_12_25_110842) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "browsers", "machines"
 end
