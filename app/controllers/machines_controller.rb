@@ -34,7 +34,7 @@ class MachinesController < ApplicationController
 
   def machine_params
     # whitelist params
-    params.permit(:title, :created_by)
+    params.permit(:name, :nickname)
   end
 
   def set_machine
