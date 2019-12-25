@@ -3,4 +3,8 @@ Rails.application.routes.draw do
   resources :machines do
     resources :browsers
   end
+
+  scope '/browsers/:browser_id' do
+    resources :sessions
+  end
 end

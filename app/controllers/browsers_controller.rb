@@ -7,8 +7,7 @@ class BrowsersController < ApplicationController
 
   # GET /machines/:machine_id/browsers
   def index
-    @browsers = Browser.all
-    json_response(@browsers)
+    json_response(@machine.browsers)
   end
 
   # POST /machines/:machine_id/browsers
