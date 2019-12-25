@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
+# Controller for user machines
 class MachinesController < ApplicationController
   before_action :set_machine, only: %i[show update destroy]
 
   # GET /machines
   def index
-    @machines = Machine.all
-    json_response(@machines)
+    @browsers = Machine.all
+    json_response(@browsers)
   end
 
   # POST /machines

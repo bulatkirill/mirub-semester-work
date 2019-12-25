@@ -3,8 +3,8 @@ require 'rails_helper'
 
 RSpec.describe 'Machines API', type: :request do
   # initialize test data
-  let!(:machines) { create_list(:machine, 10) }
-  let(:machine_id) { machines.first.id }
+  let!(:browsers) { create_list(:machine, 10) }
+  let(:machine_id) { browsers.first.id }
 
   # Test suite for GET /machines
   describe 'GET /machines' do

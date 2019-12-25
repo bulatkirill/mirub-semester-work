@@ -1,6 +1,6 @@
 class CreateMachines < ActiveRecord::Migration[6.0]
   def change
-    create_table :machines do |t|
+    create_table :browsers do |t|
       t.string :name
       t.string :nickname
 
