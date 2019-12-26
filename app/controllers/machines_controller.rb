@@ -6,8 +6,8 @@ class MachinesController < ApplicationController
 
   # GET /machines
   def index
-    @browsers = Machine.all
-    json_response(@browsers)
+    @machines = Machine.all.includes(:browsers)
+    json_response(@machines, :ok, [:browsers])
   end
 
   # POST /machines
