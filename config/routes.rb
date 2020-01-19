@@ -7,4 +7,8 @@ Rails.application.routes.draw do
   scope '/browsers/:browser_id' do
     resources :sessions
   end
+
+  scope '/sessions/:session_id' do
+    resources :tabs
+  end
 end
