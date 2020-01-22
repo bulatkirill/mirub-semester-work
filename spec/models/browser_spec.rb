@@ -9,6 +9,11 @@ RSpec.describe Browser, type: :model do
   it do
     should belong_to(:device)
   end
+  # Association test
+  # ensure Browser model has a 1:m relationship with the Session model
+  it do
+    should have_many(:sessions).dependent(:destroy)
+  end
   # Validation tests
   # ensure columns name and nickname are present before saving
   it do
