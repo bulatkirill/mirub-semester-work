@@ -94,12 +94,12 @@ RSpec.describe 'Browsers API' do
 
     before { put "/devices/#{device_id}/browsers/#{id}", params: valid_attributes }
 
-    context 'when item exists' do
+    context 'when browser exists' do
       it 'returns status code 204' do
         expect(response).to have_http_status(204)
       end
 
-      it 'updates the item' do
+      it 'updates the browser' do
         updated_browser = Browser.find(id)
         expect(updated_browser.name).to match(/Mozart/)
       end
