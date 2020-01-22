@@ -1,44 +1,46 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Browsers API' do
   # Initialize the test data
-  let!(:machine) { create(:machine) }
-  let!(:browsers) { create_list(:browser, 20, machine_id: machine.id) }
-  let(:machine_id) { machine.id }
+  let!(:device) { create(:device) }
+  let!(:browsers) { create_list(:browser, 20, device_id: device.id) }
+  let(:device_id) { device.id }
   let(:id) { browsers.first.id }
 
-  # Test suite for GET /machines/:machine_id/browsers
-  describe 'GET /machines/:machine_id/browsers' do
-    before { get "/machines/#{machine_id}/browsers" }
+  # Test suite for GET /devices/:device_id/browsers
+  describe 'GET /devices/:device_id/browsers' do
+    before { get "/devices/#{device_id}/browsers" }
 
-    context 'when machine exists' do
+    context 'when device exists' do
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
       end
 
-      it 'returns all machine browsers' do
+      it 'returns all device browsers' do
         expect(json.size).to eq(20)
       end
     end
 
-    context 'when machine does not exist' do
-      let(:machine_id) { 0 }
+    context 'when device does not exist' do
+      let(:device_id) { 0 }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Machine/)
+        expect(response.body).to match(/Couldn't find Device/)
       end
     end
   end
 
-  # Test suite for GET /machines/:machine_id/browsers/:id
-  describe 'GET /machines/:machine_id/browsers/:id' do
-    before { get "/machines/#{machine_id}/browsers/#{id}" }
+  # Test suite for GET /devices/:device_id/browsers/:id
+  describe 'GET /devices/:device_id/browsers/:id' do
+    before { get "/devices/#{device_id}/browsers/#{id}" }
 
-    context 'when machine item exists' do
+    context 'when device item exists' do
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
       end
@@ -48,7 +50,7 @@ RSpec.describe 'Browsers API' do
       end
     end
 
-    context 'when machine item does not exist' do
+    context 'when device item does not exist' do
       let(:id) { 0 }
 
       it 'returns status code 404' do
@@ -61,12 +63,12 @@ RSpec.describe 'Browsers API' do
     end
   end
 
-  # Test suite for PUT /machines/:machine_id/browsers
-  describe 'POST /machines/:machine_id/browsers' do
+  # Test suite for PUT /devices/:device_id/browsers
+  describe 'POST /devices/:device_id/browsers' do
     let(:valid_attributes) { {name: 'Visit Narnia', nickname: "test"} }
 
     context 'when request attributes are valid' do
-      before { post "/machines/#{machine_id}/browsers", params: valid_attributes }
+      before { post "/devices/#{device_id}/browsers", params: valid_attributes }
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
@@ -74,7 +76,7 @@ RSpec.describe 'Browsers API' do
     end
 
     context 'when an invalid request' do
-      before { post "/machines/#{machine_id}/browsers", params: {} }
+      before { post "/devices/#{device_id}/browsers", params: {} }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -86,11 +88,11 @@ RSpec.describe 'Browsers API' do
     end
   end
 
-  # Test suite for PUT /machines/:machine_id/browsers/:id
-  describe 'PUT /machines/:machine_id/browsers/:id' do
+  # Test suite for PUT /devices/:device_id/browsers/:id
+  describe 'PUT /devices/:device_id/browsers/:id' do
     let(:valid_attributes) { {name: 'Mozart'} }
 
-    before { put "/machines/#{machine_id}/browsers/#{id}", params: valid_attributes }
+    before { put "/devices/#{device_id}/browsers/#{id}", params: valid_attributes }
 
     context 'when item exists' do
       it 'returns status code 204' do
@@ -116,9 +118,9 @@ RSpec.describe 'Browsers API' do
     end
   end
 
-  # Test suite for DELETE /machines/:id
-  describe 'DELETE /machines/:id' do
-    before { delete "/machines/#{machine_id}/browsers/#{id}" }
+  # Test suite for DELETE /devices/:id
+  describe 'DELETE /devices/:id' do
+    before { delete "/devices/#{device_id}/browsers/#{id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

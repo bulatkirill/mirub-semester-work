@@ -1,33 +1,33 @@
 # frozen_string_literal: true
 
-# Controller for users browsers registered on his machines
+# Controller for users browsers registered on his devices
 class BrowsersController < ApplicationController
-  before_action :set_machine
+  before_action :set_device
   before_action :set_browser, only: %i[show update destroy]
 
-  # GET /machines/:machine_id/browsers
+  # GET /devices/:device_id/browsers
   def index
-    json_response(@machine.browsers)
+    json_response(@device.browsers)
   end
 
-  # POST /machines/:machine_id/browsers
+  # POST /devices/:device_id/browsers
   def create
-    @machine.browsers.create!(browser_params)
-    json_response(@machine, :created)
+    @device.browsers.create!(browser_params)
+    json_response(@device, :created)
   end
 
-  # GET /machines/:machine_id/browsers/:id
+  # GET /devices/:device_id/browsers/:id
   def show
     json_response(@browser)
   end
 
-  # PUT /machines/:machine_id/browsers/:id
+  # PUT /devices/:device_id/browsers/:id
   def update
     @browser.update(browser_params)
     head :no_content
   end
 
-  # DELETE /machines/:machine_id/browsers/:id
+  # DELETE /devices/:device_id/browsers/:id
   def destroy
     @browser.destroy
     head :no_content
@@ -41,10 +41,10 @@ class BrowsersController < ApplicationController
   end
 
   def set_browser
-    @browser = @machine.browsers.find_by!(id: params[:id]) if @machine
+    @browser = @device.browsers.find_by!(id: params[:id]) if @device
   end
 
-  def set_machine
-    @machine = Machine.find(params[:machine_id])
+  def set_device
+    @device = Device.find(params[:device_id])
   end
 end

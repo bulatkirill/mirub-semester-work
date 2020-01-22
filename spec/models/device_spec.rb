@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-# Test suite for the Machine model
-RSpec.describe(Machine, type: :model) do
+# Test suite for the Device model
+RSpec.describe(Device, type: :model) do
   # Association test
-  # ensure Machine model has a 1:m relationship with the Browser model
+  # ensure Device model has a 1:m relationship with the Browser model
   it do
     should have_many(:browsers).dependent(:destroy)
   end

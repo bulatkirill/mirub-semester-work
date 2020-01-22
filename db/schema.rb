@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_25_165050) do
+ActiveRecord::Schema.define(version: 2020_01_22_202237) do
 
   create_table "browsers", force: :cascade do |t|
     t.string "name"
     t.string "nickname"
     t.string "note"
-    t.integer "machine_id", null: false
+    t.integer "device_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["machine_id"], name: "index_browsers_on_machine_id"
+    t.index ["device_id"], name: "index_browsers_on_device_id"
   end
 
-  create_table "machines", force: :cascade do |t|
+  create_table "devices", force: :cascade do |t|
     t.string "name"
     t.string "nickname"
     t.datetime "created_at", precision: 6, null: false
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2019_12_25_165050) do
     t.index ["session_id"], name: "index_tabs_on_session_id"
   end
 
-  add_foreign_key "browsers", "machines"
+  add_foreign_key "browsers", "devices"
   add_foreign_key "sessions", "browsers"
   add_foreign_key "tabs", "sessions"
 end

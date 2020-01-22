@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-# Test suite for the Machine model
+# Test suite for the Browser model
 RSpec.describe Browser, type: :model do
   # Association test
-  # ensure Browser model has a m:1 relationship with the Machine model
+  # ensure Browser model has a m:1 relationship with the Device model
   it do
-    should belong_to(:machine)
+    should belong_to(:device)
   end
   # Validation tests
   # ensure columns name and nickname are present before saving

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :machine do
+  factory :device do
     name do
       Faker::Lorem.word
     end
