@@ -1,10 +1,11 @@
-# spec/requests/todos_spec.rb
+# spec/requests/devices_spec.rb
 require 'rails_helper'
 
 RSpec.describe 'Devices API', type: :request do
   # initialize test data
-  let!(:browsers) { create_list(:device, 10) }
-  let(:device_id) { browsers.first.id }
+  let!(:devices) { create_list(:device, 10) }
+  let!(:browsers) { create_list(:browser, 20, device_id: devices.first.id) }
+  let(:device_id) { devices.first.id }
 
   # Test suite for GET /devices
   describe 'GET /devices' do
@@ -15,6 +16,8 @@ RSpec.describe 'Devices API', type: :request do
       # Note `json` is a custom helper to parse JSON responses
       expect(json).not_to be_empty
       expect(json.size).to eq(10)
+      # check that device is returned with the related browsers
+      expect(json.first['browsers'].size).to eq(20)
     end
 
     it 'returns status code 200' do
@@ -83,7 +86,7 @@ RSpec.describe 'Devices API', type: :request do
 
   # Test suite for PUT /devices/:id
   describe 'PUT /devices/:id' do
-    let(:valid_attributes) { {name: 'Dell e5570', nickname: "work pc"} }
+    let(:valid_attributes) { {name: 'Dell e5570', nickname: 'work pc'} }
 
     context 'when the record exists' do
       before { put "/devices/#{device_id}", params: valid_attributes }
