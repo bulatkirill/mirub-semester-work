@@ -118,12 +118,34 @@ RSpec.describe 'Browsers API' do
     end
   end
 
-  # Test suite for DELETE /devices/:id
-  describe 'DELETE /devices/:id' do
+  # Test suite for DELETE /devices/:device_id/browsers/:id
+  describe 'DELETE /devices/:device_id/browsers/:id' do
     before { delete "/devices/#{device_id}/browsers/#{id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
     end
+
+    it 'should return no browser' do
+      get "/devices/#{device_id}/browsers/#{id}"
+      expect(response).to have_http_status(404)
+      expect(response.body).to match(/Couldn't find Browser/)
+    end
   end
+
+  # Test suite for DELETE /devices/:device_id
+  describe 'DELETE /devices/:device_id' do
+    before { delete "/devices/#{device_id}" }
+
+    it 'returns status code 204' do
+      expect(response).to have_http_status(204)
+    end
+
+    it 'should return no browsers related to this device' do
+      get "/devices/#{device_id}"
+      expect(response).to have_http_status(404)
+      expect(response.body).to match(/Couldn't find Device/)
+    end
+  end
+
 end

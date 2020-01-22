@@ -79,7 +79,7 @@ RSpec.describe 'Sessions API' do
     end
 
     context 'when an invalid request' do
-      before { post "/browser/#{browser_id}/sessions", params: {} }
+      before { post "/browsers/#{browser_id}/sessions", params: {} }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
