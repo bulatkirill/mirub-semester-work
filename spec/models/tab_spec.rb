@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Tab, type: :model do
@@ -16,5 +18,4 @@ RSpec.describe Tab, type: :model do
   it do
     should validate_presence_of(:domain)
   end
-
 end

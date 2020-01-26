@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# controller for tabs saved in the session
 class TabsController < ApplicationController
 
   before_action :set_session

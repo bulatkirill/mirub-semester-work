@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# singleton class for encoding and decoding JWT
 class JsonWebToken
   class << self
     def encode(payload, exp = 24.hours.from_now)
@@ -8,7 +11,7 @@ class JsonWebToken
     def decode(token)
       body = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
       HashWithIndifferentAccess.new body
-    rescue
+    rescue JWT::DecodeError
       nil
     end
   end
