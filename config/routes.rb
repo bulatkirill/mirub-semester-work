@@ -14,5 +14,7 @@ Rails.application.routes.draw do
     resources :tabs
   end
 
+  resource :users
+
   post '/authenticate', to: 'authentication#authenticate'
 end
