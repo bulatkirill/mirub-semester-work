@@ -7,10 +7,24 @@ RSpec.describe 'Devices API', type: :request do
   let!(:browsers) { create_list(:browser, 20, device_id: devices.first.id) }
   let(:device_id) { devices.first.id }
 
+  before(:all) do
+    User.create!(
+      email: 'mail@mail.com',
+      password: '0000',
+      password_confirmation: '0000'
+    )
+    post '/authenticate', params: { email: 'mail@mail.com', password: '0000' }
+    token = json['auth_token']
+    @headers = {
+      Authorization: token
+    }
+  end
+
+
   # Test suite for GET /devices
   describe 'GET /devices' do
     # make HTTP get request before each example
-    before { get '/devices' }
+    before { get '/devices', headers: @headers }
 
     it 'returns devices' do
       # Note `json` is a custom helper to parse JSON responses
@@ -27,7 +41,7 @@ RSpec.describe 'Devices API', type: :request do
 
   # Test suite for GET /devices/:id
   describe 'GET /devices/:id' do
-    before { get "/devices/#{device_id}" }
+    before { get "/devices/#{device_id}", headers: @headers }
 
     context 'when the record exists' do
       it 'returns the device' do
@@ -56,10 +70,10 @@ RSpec.describe 'Devices API', type: :request do
   # Test suite for POST /devices
   describe 'POST /devices' do
     # valid payload
-    let(:valid_attributes) { {name: 'Dell e5570', nickname: 'Work computer'} }
+    let(:valid_attributes) { { name: 'Dell e5570', nickname: 'Work computer' } }
 
     context 'when the request is valid' do
-      before { post '/devices', params: valid_attributes }
+      before { post '/devices', params: valid_attributes, headers: @headers }
 
       it 'creates a device' do
         expect(json['name']).to eq('Dell e5570')
@@ -71,7 +85,11 @@ RSpec.describe 'Devices API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/devices', params: {name: 'Dell e5570'} }
+      before do
+        post '/devices',
+             params: { name: 'Dell e5570' },
+             headers: @headers
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -86,10 +104,14 @@ RSpec.describe 'Devices API', type: :request do
 
   # Test suite for PUT /devices/:id
   describe 'PUT /devices/:id' do
-    let(:valid_attributes) { {name: 'Dell e5570', nickname: 'work pc'} }
+    let(:valid_attributes) { { name: 'Dell e5570', nickname: 'work pc' } }
 
     context 'when the record exists' do
-      before { put "/devices/#{device_id}", params: valid_attributes }
+      before do
+        put "/devices/#{device_id}",
+            params: valid_attributes,
+            headers: @headers
+      end
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -103,7 +125,9 @@ RSpec.describe 'Devices API', type: :request do
 
   # Test suite for DELETE /devices/:id
   describe 'DELETE /devices/:id' do
-    before { delete "/devices/#{device_id}" }
+    before do
+      delete "/devices/#{device_id}", headers: @headers
+    end
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
