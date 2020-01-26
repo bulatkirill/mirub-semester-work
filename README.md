@@ -1,16 +1,24 @@
 # Tab Buddy Api
 
-This documents provides you with an information for preparing and deploying your application to run locally step by step.
+This document contains required steps for deploying an application to local machine.
 
-Make sure you have correct version of ruby and ruby on rails:
+Make sure you have correct version of ruby and other tools:
 
-* Ruby version >= **2.5.6**
+* ruby --version >= **2.5.6**
 
-* Rails >= **6.0.2.1**
+* rails --version >= **6.0.2.1**
+
+* bundle --version >= **2.0.2**
+
+* yarn --version >= **1.19.1**
+
+* rspec --version >= **3.9**
 
 Next steps need to be done to run the application:
 
 1. Install yarn dependencies = **yarn install --check-files**
+
+1. Install dependencies = **bundle install**
 
 1. Execute dev environment migrations = **rails db:migrate RAILS_ENV=development**
 
