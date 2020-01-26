@@ -14,9 +14,22 @@ RSpec.describe 'Tabs API' do
   let(:id) { tabs.first.id }
   let(:second_id) { tabs.second.id }
 
+  before(:all) do
+    User.create!(
+      email: 'mail@mail.com',
+      password: '0000',
+      password_confirmation: '0000'
+    )
+    post '/authenticate', params: { email: 'mail@mail.com', password: '0000' }
+    token = json['auth_token']
+    @headers = {
+      Authorization: token
+    }
+  end
+
   # Test suite for GET /sessions/:session_id/tabs
   describe 'GET /sessions/:session_id/tabs' do
-    before { get "/sessions/#{session_id}/tabs" }
+    before { get "/sessions/#{session_id}/tabs", headers: @headers }
 
     context 'when browser exists' do
       it 'returns status code 200' do
@@ -43,7 +56,7 @@ RSpec.describe 'Tabs API' do
 
   # Test suite for GET /sessions/:session_id/tabs/:id
   describe 'GET /sessions/:session_id/tabs/:id' do
-    before { get "/sessions/#{session_id}/tabs/#{id}" }
+    before { get "/sessions/#{session_id}/tabs/#{id}", headers: @headers }
 
     context 'when tab item exists' do
       it 'returns status code 200' do
@@ -79,7 +92,9 @@ RSpec.describe 'Tabs API' do
 
     context 'when request attributes are valid' do
       before do
-        post "/sessions/#{session_id}/tabs", params: valid_attributes
+        post "/sessions/#{session_id}/tabs",
+             params: valid_attributes,
+             headers: @headers
       end
 
       it 'returns status code 201' do
@@ -88,7 +103,11 @@ RSpec.describe 'Tabs API' do
     end
 
     context 'when an invalid request' do
-      before { post "/sessions/#{session_id}/tabs", params: {} }
+      before do
+        post "/sessions/#{session_id}/tabs",
+             params: {},
+             headers: @headers
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -103,12 +122,13 @@ RSpec.describe 'Tabs API' do
   # Test suite for PUT /sessions/:session_id/tabs/:id
   describe 'PUT /sessions/:session_id/tabs/:id' do
     let(:valid_attributes) do
-      {url: 'https://www.google.com/queryString?x=5&y=8'}
+      { url: 'https://www.google.com/queryString?x=5&y=8' }
     end
 
     before do
       put "/sessions/#{session_id}/tabs/#{id}",
-          params: valid_attributes
+          params: valid_attributes,
+          headers: @headers
     end
 
     context 'when tab exists' do
@@ -137,20 +157,23 @@ RSpec.describe 'Tabs API' do
 
   # Test suite for DELETE /sessions/:session_id/tabs/:id
   describe 'DELETE /sessions/:session_id/tabs/:id' do
-    before { delete "/sessions/#{session_id}/tabs/#{id}" }
+    before do
+      delete "/sessions/#{session_id}/tabs/#{id}",
+             headers: @headers
+    end
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
     end
 
     it 'returns a not found message' do
-      get "/sessions/#{session_id}/tabs/#{id}"
+      get "/sessions/#{session_id}/tabs/#{id}", headers: @headers
       expect(response).to have_http_status(404)
       expect(response.body).to match(/Couldn't find Tab/)
     end
 
     it 'returns not deleted tab' do
-      get "/sessions/#{session_id}/tabs/#{second_id}"
+      get "/sessions/#{session_id}/tabs/#{second_id}", headers: @headers
       expect(response).to have_http_status(200)
       expect(json['id']).to eq(second_id)
     end
@@ -158,14 +181,17 @@ RSpec.describe 'Tabs API' do
 
   # Test suite for DELETE /browsers/:browser_id/sessions/:session_id
   describe 'DELETE /browsers/:browser_id/sessions/:session_id' do
-    before { delete "/browsers/#{browser_id}/sessions/#{session_id}" }
+    before do
+      delete "/browsers/#{browser_id}/sessions/#{session_id}",
+             headers: @headers
+    end
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
     end
 
     it 'returns no related tabs to session' do
-      get "/sessions/#{session_id}/tabs"
+      get "/sessions/#{session_id}/tabs", headers: @headers
       expect(response).to have_http_status(404)
       expect(response.body).to match(/Couldn't find Session/)
     end
