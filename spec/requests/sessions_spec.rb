@@ -12,9 +12,23 @@ RSpec.describe 'Sessions API' do
   let(:second_id) { sessions.second.id }
   let(:device_id) { device.id }
 
+  before(:all) do
+    User.create!(
+      email: 'mail@mail.com',
+      password: '0000',
+      password_confirmation: '0000'
+    )
+    post '/authenticate', params: { email: 'mail@mail.com', password: '0000' }
+    token = json['auth_token']
+    @headers = {
+      Authorization: token
+    }
+  end
+
+
   # Test suite for GET /browsers/:browser_id/sessions
   describe 'GET /browsers/:browser_id/sessions' do
-    before { get "/browsers/#{browser_id}/sessions" }
+    before { get "/browsers/#{browser_id}/sessions", headers: @headers }
 
     context 'when browser exists' do
       it 'returns status code 200' do
@@ -41,7 +55,7 @@ RSpec.describe 'Sessions API' do
 
   # Test suite for GET /browsers/:browser_id/sessions/:id
   describe 'GET /browsers/:browser_id/sessions/:id' do
-    before { get "/browsers/#{browser_id}/sessions/#{id}" }
+    before { get "/browsers/#{browser_id}/sessions/#{id}", headers: @headers }
 
     context 'when browser item exists' do
       it 'returns status code 200' do
@@ -68,12 +82,13 @@ RSpec.describe 'Sessions API' do
 
   # Test suite for PUT /browsers/:browser_id/sessions
   describe 'POST /browsers/:browser_id/sessions' do
-    let(:valid_attributes) { {name: 'Study session'} }
+    let(:valid_attributes) { { name: 'Study session' } }
 
     context 'when request attributes are valid' do
       before do
         post "/browsers/#{browser_id}/sessions",
-             params: valid_attributes
+             params: valid_attributes,
+             headers: @headers
       end
 
       it 'returns status code 201' do
@@ -82,7 +97,11 @@ RSpec.describe 'Sessions API' do
     end
 
     context 'when an invalid request' do
-      before { post "/browsers/#{browser_id}/sessions", params: {} }
+      before do
+        post "/browsers/#{browser_id}/sessions",
+             params: {},
+             headers: @headers
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -96,9 +115,13 @@ RSpec.describe 'Sessions API' do
 
   # Test suite for PUT /browsers/:browser_id/sessions/:id
   describe 'PUT /browsers/:browser_id/sessions/:id' do
-    let(:valid_attributes) { {name: 'Work Session'} }
+    let(:valid_attributes) { { name: 'Work Session' } }
 
-    before { put "/browsers/#{browser_id}/sessions/#{id}", params: valid_attributes }
+    before do
+      put "/browsers/#{browser_id}/sessions/#{id}",
+          params: valid_attributes,
+          headers: @headers
+    end
 
     context 'when session exists' do
       it 'returns status code 204' do
@@ -126,20 +149,23 @@ RSpec.describe 'Sessions API' do
 
   # Test suite for DELETE /browsers/:browser_id/sessions/:id
   describe 'DELETE /browsers/:browser_id/sessions/:id' do
-    before { delete "/browsers/#{browser_id}/sessions/#{id}" }
+    before do
+      delete "/browsers/#{browser_id}/sessions/#{id}",
+             headers: @headers
+    end
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
     end
 
     it 'returns a not found message' do
-      get "/browsers/#{browser_id}/sessions/#{id}"
+      get "/browsers/#{browser_id}/sessions/#{id}", headers: @headers
       expect(response).to have_http_status(404)
       expect(response.body).to match(/Couldn't find Session/)
     end
 
     it 'returns not deleted session' do
-      get "/browsers/#{browser_id}/sessions/#{second_id}"
+      get "/browsers/#{browser_id}/sessions/#{second_id}", headers: @headers
       expect(response).to have_http_status(200)
       expect(json['id']).to eq(second_id)
     end
@@ -147,14 +173,17 @@ RSpec.describe 'Sessions API' do
 
   # Test suite for DELETE /devices/:device_id/browsers/:browser_id
   describe 'DELETE /devices/:device_id/browsers/:browser_id' do
-    before { delete "/devices/#{device_id}/browsers/#{browser_id}" }
+    before do
+      delete "/devices/#{device_id}/browsers/#{browser_id}",
+             headers: @headers
+    end
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
     end
 
     it 'returns no related sessions to browser' do
-      get "/browsers/#{browser_id}/sessions"
+      get "/browsers/#{browser_id}/sessions", headers: @headers
       expect(response).to have_http_status(404)
       expect(response.body).to match(/Couldn't find Browser/)
     end
