@@ -1,24 +1,23 @@
-# README
+# Tab Buddy Api
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This documents provides you with an information for preparing and deploying your application to run locally step by step.
 
-Things you may want to cover:
+Make sure you have correct version of ruby and ruby on rails:
 
-* Ruby version
+* Ruby version >= **2.5.6**
 
-* System dependencies
+* Rails >= **6.0.2.1**
 
-* Configuration
+Next steps need to be done to run the application:
 
-* Database creation
+1. Install yarn dependencies = **yarn install --check-files**
 
-* Database initialization
+1. Execute dev environment migrations = **rails db:migrate RAILS_ENV=development**
 
-* How to run the test suite
+1. Execute test environment migrations = **rails db:migrate RAILS_ENV=test**
 
-* Services (job queues, cache servers, search engines, etc.)
+2. Run tests = **rspec**
 
-* Deployment instructions
+3. Deploy the application on local machine= **rails server -b 127.0.0.1 -p 3000 -e development**
 
-* ...
+4. Import the collection for postman and run default execution to see default workflow = **https://www.getpostman.com/collections/27d4a8695955113594ec**
