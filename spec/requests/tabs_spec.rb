@@ -198,4 +198,3 @@ RSpec.describe 'Tabs API' do
   end
 
 end
-

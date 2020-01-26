@@ -25,7 +25,6 @@ RSpec.describe 'Sessions API' do
     }
   end
 
-
   # Test suite for GET /browsers/:browser_id/sessions
   describe 'GET /browsers/:browser_id/sessions' do
     before { get "/browsers/#{browser_id}/sessions", headers: @headers }

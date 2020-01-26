@@ -23,7 +23,6 @@ RSpec.describe 'Browsers API' do
   let(:device_id) { device.id }
   let(:id) { browsers.first.id }
 
-
   # Test suite for GET /devices/:device_id/browsers
   describe 'GET /devices/:device_id/browsers' do
     before { get "/devices/#{device_id}/browsers", headers: @headers }
@@ -178,5 +177,4 @@ RSpec.describe 'Browsers API' do
       expect(response.body).to match(/Couldn't find Device/)
     end
   end
-
 end

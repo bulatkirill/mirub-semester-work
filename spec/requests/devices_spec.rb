@@ -22,7 +22,6 @@ RSpec.describe 'Devices API', type: :request do
     }
   end
 
-
   # Test suite for GET /devices
   describe 'GET /devices' do
     # make HTTP get request before each example

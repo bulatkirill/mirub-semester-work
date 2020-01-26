@@ -18,5 +18,4 @@ RSpec.describe Session, type: :model do
   it do
     should validate_presence_of(:name)
   end
-
 end

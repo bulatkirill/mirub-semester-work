@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# migration for creation of the browser table
 class CreateBrowsers < ActiveRecord::Migration[6.0]
   def change
     create_table :browsers do |t|

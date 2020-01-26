@@ -1,0 +1,6 @@
+Style/EndOfLine:
+  EnforcedStyle: crlf
+
+Metrics/LineLength:
+  IgnoredPatterns:
+    - ^#
