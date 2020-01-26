@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   scope '/sessions/:session_id' do
     resources :tabs
   end
+
+  post '/authenticate', to: 'authentication#authenticate'
 end
