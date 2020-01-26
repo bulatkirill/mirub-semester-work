@@ -71,7 +71,10 @@ RSpec.describe 'Sessions API' do
     let(:valid_attributes) { {name: 'Study session'} }
 
     context 'when request attributes are valid' do
-      before { post "/browsers/#{browser_id}/sessions", params: valid_attributes }
+      before do
+        post "/browsers/#{browser_id}/sessions",
+             params: valid_attributes
+      end
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
