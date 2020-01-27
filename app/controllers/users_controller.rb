@@ -4,6 +4,7 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_request
 
+  # controller method for creating/registering a new API user
   # POST /users
   def create
     @user = User.new(user_params)
