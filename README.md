@@ -14,11 +14,15 @@ Make sure you have correct version of ruby and other tools:
 
 * rspec --version >= **3.9**
 
+* yardoc --version >= **0.9.20**
+
 Next steps need to be done to run the application:
 
 1. Install yarn dependencies = **yarn install --check-files**
 
 1. Install dependencies = **bundle install**
+
+1. generate documentation = **yardoc .**
 
 1. Execute dev environment migrations = **rails db:migrate RAILS_ENV=development**
 
